@@ -5,6 +5,7 @@ import { FaSun } from "react-icons/fa";
 import { FaMoon } from "react-icons/fa";
 import { useDispatch, useSelector } from 'react-redux';
 import { setMode} from '../store/themeReducer';
+import { Link } from 'react-router-dom';
 
 const Navbar = () => {
 
@@ -14,14 +15,14 @@ const Navbar = () => {
   const [nav,setNav] = useState(true);
 
   //checking if window theme is dark
-  useEffect(()=>{
-    if(window.matchMedia('(prefers-color-scheme:dark)').matches){
-       dispatch(setMode('dark'));
-    }
-    else{
-       dispatch(setMode('light'));
-    }
-  },[])
+  // useEffect(()=>{
+  //   if(window.matchMedia('(prefers-color-scheme:dark)').matches){
+  //      dispatch(setMode('dark'));
+  //   }
+  //   else{
+  //      dispatch(setMode('light'));
+  //   }
+  // },[])
 
 
   useEffect(()=>{
@@ -57,15 +58,15 @@ const Navbar = () => {
         </g>
         </svg>
         </div>
-        <ul className='hidden md:flex'>
-            <li className='p-4 cursor-pointer'>Home</li>
-            <li className='p-4 cursor-pointer' >CRM</li>
-            <li className='p-4 cursor-pointer'>HRM</li>
-            <li className='p-4 cursor-pointer'>EMS</li>
-            <li onClick={handleMode} className='cursor-pointer p-4 text-2xl'>
+        <div className='hidden md:flex'>
+            <Link className='p-4 cursor-pointer' to="/"><button>Home</button></Link>
+            <Link className='p-4 cursor-pointer' to="/hrmLogin"><button>HRM</button></Link>
+            <Link className='p-4 cursor-pointer' to="/crmLogin"><button>CRM</button></Link>
+            <Link className='p-4 cursor-pointer' to="/emsLogin"><button>EMS</button></Link>
+            <Link onClick={handleMode} className='cursor-pointer p-4 text-2xl'>
               {mode=='dark'?<FaSun />:<FaMoon/>}
-            </li>
-        </ul>
+            </Link>
+        </div>
         <div onClick={handleNav} className='block md:hidden'> 
           {!nav ? <AiOutlineClose size={20}/> : <AiOutlineMenu size={20}/>}  
         </div> 
@@ -83,15 +84,15 @@ const Navbar = () => {
         </g>
         </svg>
         </div>
-          <ul className='uppercase p-4'>
-            <li className='p-4 border-b border-black  dark:border-gray-100 '>Home</li>
-            <li className='p-4 border-b border-black dark:border-gray-100 ' >HRM</li>
-            <li className='p-4 border-b border-black dark:border-gray-100 '>CRM</li>
-            <li className='p-4 border-b border-black dark:border-gray-100 '>EMS</li>
-            <li onClick={handleMode} className='cursor-pointer p-4 text-2xl'>
-              {mode=='dark'?<FaSun />: <FaMoon/>}
-            </li>
-          </ul>
+          <div className='uppercase p-4 flex flex-col'>
+            <Link className='p-4 border-b border-black  dark:border-gray-100' to="/"><button>Home</button></Link>
+            <Link className='p-4 border-b border-black  dark:border-gray-100' to="/hrmLogin"><button>HRM</button></Link>
+            <Link className='p-4 border-b border-black  dark:border-gray-100' to="/crmLogin"><button>CRM</button></Link>
+            <Link className='p-4 border-b border-black  dark:border-gray-100' to="/emsLogin"><button>EMS</button></Link>
+            <Link onClick={handleMode} className='cursor-pointer p-4 text-2xl'>
+              {mode=='dark'?<FaSun />:<FaMoon/>}
+            </Link>
+        </div>
          </div>
       </div>
   )

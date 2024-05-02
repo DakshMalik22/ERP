@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 const Hero = () => {
   const mode = useSelector(state => state.theme.mode);
+
   
   useEffect(()=>{
     if(mode==='dark'){

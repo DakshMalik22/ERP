@@ -1,7 +1,7 @@
 import React from 'react';
 import { FaLinkedin } from "react-icons/fa";
 import { FaFacebook } from "react-icons/fa";
-
+import { Link } from 'react-router-dom';
 
 const Footer = () => {
   return (
@@ -16,13 +16,13 @@ const Footer = () => {
               <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Products</h2>
               <ul className="text-gray-500 dark:text-gray-400 font-medium">
                 <li className="mb-4">
-                  <a href="" className="hover:underline">HRM</a>
+                  <Link to="/hrmLogin" className="hover:underline">HRM</Link>
                 </li>
                 <li className='mb-4'>
-                  <a href="" className="hover:underline">CRM</a>
+                  <Link to="/crmLogin" className="hover:underline">CRM</Link>
                 </li>
                 <li>
-                  <a href="" className="hover:underline">EMS</a>
+                  <Link to="/emsLogin" className="hover:underline">EMS</Link>
                 </li>
               </ul>
             </div>
