@@ -15,12 +15,12 @@ public class TaskController {
     private TaskService taskService;
 
     @GetMapping("/task")
-    public List<Task> getHR(){
+    public List<Task> getTask(){
         return taskService.fetchTaskList();
     }
 
     @PostMapping("/addTask")
-    public Task addHR(@Valid @RequestBody Task task){
+    public Task addTask(@Valid @RequestBody Task task){
         return taskService.addTask(task);
     }
 
@@ -35,7 +35,7 @@ public class TaskController {
     }
 
     @PutMapping("/updateTask/{id}")
-    public Task updateHR(@PathVariable("id") int taskId,
+    public Task updateTask(@PathVariable("id") int taskId,
                        @RequestBody Task task) {
         return taskService.updateTask(taskId, task);
     }

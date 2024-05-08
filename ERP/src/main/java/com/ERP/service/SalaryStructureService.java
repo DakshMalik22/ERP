@@ -2,6 +2,7 @@ package com.ERP.service;
 
 import com.ERP.entity.SalaryStructure;
 import com.ERP.error.SalaryStructureNotFoundException;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 

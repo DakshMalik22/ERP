@@ -1,16 +1,15 @@
 package com.ERP.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Getter
+@Setter
 @Table(name = "salary_structure_table", uniqueConstraints = @UniqueConstraint(
         name = "structure_id_unique",
         columnNames = "structure_id"
@@ -31,4 +30,7 @@ public class SalaryStructure {
     private String role;
     private String level;
     private double baseSalary;
+
+    public void setId(int i) {
+    }
 }
