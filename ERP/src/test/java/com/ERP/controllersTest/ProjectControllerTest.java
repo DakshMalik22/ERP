@@ -1,8 +1,9 @@
 package com.ERP.controllersTest;
 
+import com.ERP.controllers.ProjectController;
 import com.ERP.dtos.ProjectDto;
-import com.ERP.entitiesTest.Project;
-import com.ERP.servicesTest.ProjectService;
+import com.ERP.entities.Project;
+import com.ERP.services.ProjectService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

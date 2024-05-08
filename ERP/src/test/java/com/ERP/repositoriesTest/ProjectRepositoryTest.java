@@ -1,6 +1,7 @@
 package com.ERP.repositoriesTest;
 
-import com.ERP.entitiesTest.Project;
+import com.ERP.entities.Project;
+import com.ERP.repositories.ProjectRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

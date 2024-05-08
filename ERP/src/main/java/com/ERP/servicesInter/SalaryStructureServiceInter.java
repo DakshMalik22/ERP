@@ -1,6 +1,6 @@
 package com.ERP.servicesInter;
 
-import com.ERP.entitiesTest.SalaryStructure;
+import com.ERP.entities.SalaryStructure;
 import com.ERP.exceptions.SalaryStructureNotFoundException;
 
 import java.util.List;

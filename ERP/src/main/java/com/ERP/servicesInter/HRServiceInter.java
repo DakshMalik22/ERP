@@ -1,6 +1,6 @@
 package com.ERP.servicesInter;
 
-import com.ERP.entitiesTest.HR;
+import com.ERP.entities.HR;
 import com.ERP.exceptions.HRNotFoundException;
 
 import java.util.List;

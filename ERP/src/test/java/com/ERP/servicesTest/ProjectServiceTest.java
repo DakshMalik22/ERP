@@ -1,8 +1,9 @@
 package com.ERP.servicesTest;
 
 import com.ERP.dtos.ProjectDto;
-import com.ERP.entitiesTest.Project;
-import com.ERP.repositoriesTest.ProjectRepository;
+import com.ERP.entities.Project;
+import com.ERP.repositories.ProjectRepository;
+import com.ERP.services.ProjectService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
