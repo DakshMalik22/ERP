@@ -6,6 +6,7 @@ import Landing from './pages/Landing';
 import HrmLogin from './pages/HrmLogin';
 import EmsLogin from './pages/EmsLogin';
 import CrmLogin from './pages/CrmLogin';
+import EmsDashboard from './pages/EmsDashboard'
 
 const App = () => {
   return (
@@ -16,6 +17,7 @@ const App = () => {
         <Route path='/hrmLogin' element={<HrmLogin />}></Route>
         <Route path='/crmLogin' element={<CrmLogin />}></Route>
         <Route path='/emsLogin' element={<EmsLogin />}></Route>
+        <Route path='/emsDashboard' element={<EmsDashboard />}></Route>
      </Routes>
     </Provider> 
     </BrowserRouter>

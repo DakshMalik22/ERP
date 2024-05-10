@@ -2,22 +2,27 @@ import React, { useState } from "react";
 import { IoIosEyeOff } from "react-icons/io";
 import { IoMdEye } from "react-icons/io";
 import EmsLoginImg from "../assets/emsLogin.jpg"
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const EmsLogin = () => {
   const [eyes,setEyes]= useState(false);
-  const [role , setRole] = useState('admin')
+  const [role , setRole] = useState('Admin')
+  const navigation = useNavigate();
 
   const handleShowPass = ()=>{
       setEyes(!eyes);
   }
 
   const handleAdminLogin = ()=>{
-     const newRole = role==='admin' ?'employee':'admin'
+     const newRole = role==='Admin' ?'Employee':'Admin'
      setRole(newRole)
   }
+
+  const  handleLogin = ()=>{
+      navigation('/emsDashboard')
+  }
   return (
-    <div className="flex items-center justify-center h-screen w-full px-5 sm:px-0 bg-[#b5bce15f]">
+    <div className="flex items-center justify-center h-screen w-full px-5 sm:px-0  dark:bg-[#0f1010f2]">
     <div className="flex bg-white dark:bg-[#02042B] rounded-lg shadow-lg border overflow-hidden max-w-sm lg:max-w-4xl w-full">
       <div
         className="hidden md:block lg:w-1/2 bg-cover border"
@@ -26,7 +31,7 @@ const EmsLogin = () => {
         }}
       ></div>
       <div className="w-full p-8 lg:w-1/2 ">
-        <p className="text-xl text-gray-600  text-center dark:text-[#f1efefc0]">{role==='admin'?'EMPLOYEE' :'ADMIN'} LOGIN</p>
+        <p className="text-xl text-gray-600  text-center dark:text-[#f1efefc0]">{role==='Admin'?'EMPLOYEE' :'ADMIN'} LOGIN</p>
         <div className="mt-4">
           <label className="block text-gray-700 dark:text-[#f1efefc0] dark:text-[#f1efefc0]text-sm font-bold mb-2">
             Email Address
@@ -61,7 +66,7 @@ const EmsLogin = () => {
           </a>
         </div>
         <div className="mt-8">
-          <button className="bg-blue-700 text-white font-bold py-2 px-4 w-full rounded hover:bg-blue-600">
+          <button onClick={handleLogin} className="bg-blue-700 text-white font-bold py-2 px-4 w-full rounded hover:bg-blue-600">
             Login
           </button>
         </div>
@@ -97,9 +102,9 @@ const EmsLogin = () => {
             </div>
           </div>
         </a>
-        <div className="mt-4 text-gray-500 text-sm">Login as {role}? <button className="underline" onClick={handleAdminLogin}>Click here</button></div>
       </div>
     </div>
+     <div><button className="absolute top-5 right-5 bg-blue-700 text-white font-bold py-2 px-4  rounded hover:bg-blue-600"  onClick={handleAdminLogin} >Login As {role}</button></div>
   </div>
   )
 }
