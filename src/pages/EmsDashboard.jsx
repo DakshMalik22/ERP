@@ -1,5 +1,4 @@
 import React, { Fragment, useState } from "react";
-import { Listbox, Transition } from "@headlessui/react";
 import { MdArrowBackIos } from "react-icons/md";
 import { VscGitStashApply } from "react-icons/vsc";
 import { MdDashboard } from "react-icons/md";
@@ -7,10 +6,7 @@ import { GrStatusUnknown } from "react-icons/gr";
 import { FaUser } from "react-icons/fa";
 import { MdOutlineLogout } from "react-icons/md";
 import EmpDashHero from "../components/EmpDashHero";
-import { IoMenu } from "react-icons/io5";
 import { CiSearch } from "react-icons/ci";
-
-
 
 const navigationList = [
   {
@@ -34,19 +30,17 @@ const navigationList = [
 const Dashbord = () => {
   const [showMenu, setShowMenu] = useState(false);
   const [openSideBar, setOpenSieBar] = useState(true);
+  
   const changeSideBar = () => {
     setOpenSieBar(!openSideBar);
   };
   const showMenuItems = () => {
     setShowMenu(!showMenu);
   };
+
   return (
     <div className="min-h-[100vh] bg-[#F6F8FA] w-full">
-      <div
-        className={`w-full flex ${
-          showMenu ? "overflow-hidden h-screen" : "sm:overflow-auto"
-        }`}
-      >
+      <div className='w-full flex'>
         {/* sidebar */}
           <div
             className={`transition-all duration-1000 ease-in-out z-50 bg-white sm:relative sm:flex sm:flex-col gap-2 sm:gap-16 rounded-br-xl h-screen min-h-[600px] py-6 absolute top-0 sm:left-0 ${
@@ -129,7 +123,7 @@ const Dashbord = () => {
         <div className="w-full">
 
           {/* navbar */}
-          <div className="pt-5 pl-8 pr-7 py-5 bg-white flex justify-between absolute w-full z-[99]">
+          <div className="pt-5 pl-8 pr-7 py-5 bg-white flex justify-between">
               <div className="hidden sm:flex max-w-2xl justify-between w-full">
                 <div className="flex flex-col">
                   <span className="text-base md:text-xl text-[#212B36] font-semibold">
@@ -175,9 +169,10 @@ const Dashbord = () => {
             
           </div>
 
-        </div>
              <EmpDashHero/>
+        </div>
       </div>
+
     </div>
   );
 };

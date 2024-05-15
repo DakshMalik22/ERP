@@ -6,7 +6,7 @@ const EmpTasks = () => {
         {
           title: "abc",
           description:"complete task a",
-          date: "20/03/2023,01:10",
+          date: "20/07/2024,01:10",
           status: "pending",
         },
         {
@@ -69,7 +69,7 @@ const EmpTasks = () => {
                     {TableData.map((data) => (
                       <tr
                         key={data.index}
-                        className="drop-shadow-[0_0_10px_rgba(34,46,58,0.02)] bg-[#f6f8fa] hover:shadow-2xl cursor-pointer"
+                        className="bg-[#f6f8fa] hover:cursor-pointer"
                       >
                         <td className="py-4 pl-3 text-sm font-normal text-[#637381] rounded-l-lg">
                           {data.title}
