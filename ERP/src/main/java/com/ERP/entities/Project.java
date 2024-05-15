@@ -1,10 +1,7 @@
 package com.ERP.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.sql.Date;
 import java.util.HashSet;
@@ -49,4 +46,5 @@ public class Project
     @JoinTable(name="project_assets",joinColumns = @JoinColumn(name="projectId", referencedColumnName = "projectId"),
                inverseJoinColumns = @JoinColumn(name="assetId", referencedColumnName = "assetId"))
     private Set<Asset> assetSet = new HashSet<>();
+
 }

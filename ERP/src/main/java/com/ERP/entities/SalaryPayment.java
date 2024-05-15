@@ -9,8 +9,8 @@ import java.util.Date;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
+@Builder
+@Table(name ="salary_payment")
 public class SalaryPayment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,5 +25,4 @@ public class SalaryPayment {
     @Temporal(TemporalType.DATE)
     @Column(name = "payment_date")
     private Date paymentDate;
-
 }

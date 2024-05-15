@@ -29,13 +29,14 @@ public class ProjectExceptionHandler
     {
         return MyResponseGenerator.generateResponse(HttpStatus.BAD_REQUEST,false,"Null Pointer Exception",null);
     }
+    
 
-//    @ExceptionHandler(value = Exception.class)
-//    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-//    public ResponseEntity<Object> exceptionHandle()
-//    {
-//        return MyResponseGenerator.generateResponse(HttpStatus.BAD_REQUEST,false,"There is Exception",null);
-//    }
+    @ExceptionHandler(value = Exception.class)
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    public ResponseEntity<Object> exceptionHandle()
+    {
+        return MyResponseGenerator.generateResponse(HttpStatus.BAD_REQUEST,false,"There is Exception",null);
+    }
 
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)

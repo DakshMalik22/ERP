@@ -13,7 +13,6 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-
 public class Employee {
 
     @Id
@@ -25,7 +24,7 @@ public class Employee {
     private String role;
 
     @OneToMany(mappedBy = "employee")
-    private List<Task>task = new ArrayList<>();
+    private List<Task> task = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name="department_id")
