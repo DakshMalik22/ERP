@@ -5,9 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="89b9a777-f8cf-4767-a7de-8ebb5dca8d79" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/ERP/src/main/java/com/ERP/controllers/ProjectController.java" beforeDir="false" afterPath="$PROJECT_DIR$/ERP/src/main/java/com/ERP/controllers/ProjectController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ERP/src/main/java/com/ERP/exceptions/RestResponseEntityExceptionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/ERP/src/main/java/com/ERP/exceptionHandler/RestResponseEntityExceptionHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ERP/src/main/java/com/ERP/services/ProjectService.java" beforeDir="false" afterPath="$PROJECT_DIR$/ERP/src/main/java/com/ERP/services/ProjectService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,6 +28,9 @@
     &quot;accountId&quot;: &quot;7d92ff38-b0c2-433b-af6a-35680a8aa8a4&quot;
   }
 }</component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 5
 }</component>
@@ -40,10 +42,14 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "SimranDEV",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "D:/All Imp/SPRINGBOOT/ERPClone"
+    "last_opened_file_path": "D:/New folder/ERP",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0"
   }
 }]]></component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />

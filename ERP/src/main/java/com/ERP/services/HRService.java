@@ -69,6 +69,7 @@ public class HRService implements HRServiceInter {
                     .orElseThrow(() -> new IdNotFoundException("HR not found with id: " + hrId));
             return objectMapper.convertValue(foundHR, HRDto.class);
         } catch (Exception e) {
+            System.out.println("Error occured");
             throw new IdNotFoundException("Error finding HR: " + e.getMessage());
         }
     }
