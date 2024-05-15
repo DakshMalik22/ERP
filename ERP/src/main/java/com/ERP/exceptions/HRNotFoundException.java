@@ -4,6 +4,7 @@ public class HRNotFoundException extends Exception{
     public HRNotFoundException(){
         super();
     }
+
     public HRNotFoundException(String message){
         super(message);
     }

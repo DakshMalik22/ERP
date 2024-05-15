@@ -2,6 +2,7 @@ package com.ERP.services;
 
 import com.ERP.dtos.ProjectDto;
 import com.ERP.entities.Project;
+import com.ERP.exceptions.IdNotFoundException;
 import com.ERP.repositories.ProjectRepository;
 import com.ERP.servicesInter.ProjectServiceInter;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class ProjectService implements ProjectServiceInter
@@ -22,49 +24,101 @@ public class ProjectService implements ProjectServiceInter
         this.projectRepository=projectRepository;
         this.objectMapper=objectMapper;
     }
+
     @Override
-    public ProjectDto addProject(ProjectDto projectDto)
-    {
-        Project newProject =objectMapper.convertValue(projectDto, Project.class);
-        projectRepository.save(newProject);
-        return objectMapper.convertValue(newProject,ProjectDto.class);
+    public ProjectDto addProject(ProjectDto projectDto) {
+        try {
+            Project newProject = objectMapper.convertValue(projectDto, Project.class);
+            projectRepository.save(newProject);
+            return objectMapper.convertValue(newProject, ProjectDto.class);
+        } catch (Exception e) {
+            throw new IdNotFoundException("Error adding project: " + e.getMessage());
+        }
     }
 
     @Override
-    public ProjectDto updateProject(ProjectDto projectDto, long projectId)
-    {
-        Project project= projectRepository.findById(projectId).get();
-        Project project1= objectMapper.convertValue(projectDto,Project.class);
-        project1.setProjectId(projectId);
-        projectRepository.save(project1);
-        return objectMapper.convertValue(project, ProjectDto.class);
+    public ProjectDto updateProject(ProjectDto projectDto, long projectId) {
+        try {
+            //get the project which we need to update
+            Project project= projectRepository.findById(projectId).orElseThrow(()-> new IdNotFoundException("Project not found with id: "+projectId));
+
+            // Update project fields if they are not null or empty in projectDto
+            if (Objects.nonNull(projectDto.getName()) && !projectDto.getName().isEmpty()) {
+                project.setName(projectDto.getName());
+            }
+            if (Objects.nonNull(projectDto.getDescription()) && !projectDto.getDescription().isEmpty()) {
+                project.setDescription(projectDto.getDescription());
+            }
+            if (Objects.nonNull(projectDto.getStartDate())) {
+                project.setStartDate(projectDto.getStartDate());
+            }
+            if (Objects.nonNull(projectDto.getEndDate())) {
+                project.setEndDate(projectDto.getEndDate());
+            }
+            if (Objects.nonNull(projectDto.getStatus()) && !projectDto.getStatus().isEmpty()) {
+                project.setStatus(projectDto.getStatus());
+            }
+            projectRepository.save(project);
+            return objectMapper.convertValue(project, ProjectDto.class);
+            }
+        catch (Exception e) {
+            throw new IdNotFoundException("Error updating project: " + e.getMessage());
+        }
     }
 
     @Override
     public ProjectDto deleteProject(long projectId) {
-        Project projectToDelete= projectRepository.findById(projectId).get();
-        projectRepository.deleteById(projectId);
-        return objectMapper.convertValue(projectToDelete,ProjectDto.class);
+        try {
+            Project projectToDelete = projectRepository.findById(projectId)
+                    .orElseThrow(() -> new IdNotFoundException("Project not found with id: " + projectId));
+            projectRepository.deleteById(projectId);
+            return objectMapper.convertValue(projectToDelete, ProjectDto.class);
+        } catch (Exception e) {
+            throw new IdNotFoundException("Error deleting project: " + e.getMessage());
+        }
     }
 
     @Override
     public ProjectDto findProject(long projectId) {
-        Project projectToSearch= projectRepository.findById(projectId).get();//.orElseThrow(IdNotFoundException::new);
-        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,false);
-        return objectMapper.convertValue(projectToSearch,ProjectDto.class);
+        try {
+            Project projectToSearch = projectRepository.findById(projectId)
+                    .orElseThrow(() -> new IdNotFoundException("Project not found with id: " + projectId));
+            objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+            return objectMapper.convertValue(projectToSearch, ProjectDto.class);
+        } catch (Exception e) {
+            throw new IdNotFoundException("Error finding project: " + e.getMessage());
+        }
     }
 
     @Override
-    public List<ProjectDto> addAllProject(List<ProjectDto> projectDtos)
-    {
-        List<Project> projectList= Arrays.asList(objectMapper.convertValue(projectDtos,Project[].class));
-        projectRepository.saveAll(projectList);
-        return Arrays.asList(objectMapper.convertValue(projectDtos,ProjectDto[].class));
+    public List<ProjectDto> addAllProject(List<ProjectDto> projectDtos) {
+        try {
+            List<Project> projectList = Arrays.asList(objectMapper.convertValue(projectDtos, Project[].class));
+            projectRepository.saveAll(projectList);
+            return Arrays.asList(objectMapper.convertValue(projectDtos, ProjectDto[].class));
+        } catch (Exception e) {
+            throw new IdNotFoundException("Error adding all projects: " + e.getMessage());
+        }
     }
 
     @Override
     public List<ProjectDto> findAllProject() {
-        List<Project> libraryMemberList= projectRepository.findAll();
-        return Arrays.asList(objectMapper.convertValue(libraryMemberList,ProjectDto[].class));
+        try {
+            List<Project> projectList = projectRepository.findAll();
+            return Arrays.asList(objectMapper.convertValue(projectList, ProjectDto[].class));
+        } catch (Exception e) {
+            throw new IdNotFoundException("Error finding all projects: " + e.getMessage());
+        }
     }
+
+
+
+
+
+
+
+
+
+
+
 }

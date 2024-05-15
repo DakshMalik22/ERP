@@ -4,8 +4,11 @@ import com.ERP.controllers.ProjectController;
 import com.ERP.dtos.ProjectDto;
 import com.ERP.entities.Project;
 import com.ERP.services.ProjectService;
+import com.ERP.entitiesTest.JsonReader;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -13,9 +16,11 @@ import org.springframework.http.MediaType;
 //import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.io.IOException;
 import java.sql.Date;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -34,26 +39,46 @@ public class ProjectControllerTest
     private MockMvc mockMvc;
     @Autowired
     ObjectMapper objectMapper;
+    Project project;
 
-    Date startDate = Date.valueOf("2024-04-23");
-    Date endDate = Date.valueOf("2024-04-29");
-    Project project1= Project.builder().name("ERP").description("This is ERP Project").startDate(startDate).endDate(endDate).status("pending").build();
-    Project project2= Project.builder().name("CRM").description("This is CRM Project").startDate(startDate).endDate(endDate).status("processing").build();
-    Project project3= Project.builder().name("HR").description("This is HR Project").startDate(startDate).endDate(endDate).status("done").build();
+    JsonReader jsonReader = new JsonReader();
+    Map<String, Object> dataMap = jsonReader.readFile("Project");
 
+    //Access the datamap here
+    String name = (String) dataMap.get("name");
+    String description = (String) dataMap.get("description");
+    String startDateString = (String) dataMap.get("startDate");
+    String endDateString = (String) dataMap.get("endDate");
+    Date startDate = Date.valueOf(startDateString);
+    Date endDate = Date.valueOf(endDateString);
+    String status = (String) dataMap.get("status");
+
+    public ProjectControllerTest() throws IOException {
+    }
+    @BeforeEach
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
+        project = new Project();
+        project.setProjectId(1L);
+        project.setName(name);
+        project.setDescription(description);
+        project.setStartDate(startDate);
+        project.setEndDate(endDate);
+        project.setStatus(status);
+    }
     @Test
     public void testCreateProject() throws Exception {
-        ProjectDto projectDto =objectMapper.convertValue(project1, ProjectDto.class);
+        ProjectDto projectDto =objectMapper.convertValue(project, ProjectDto.class);
         when(projectService.addProject(projectDto)).thenReturn(projectDto);
         mockMvc.perform(post("/project/add")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(new ObjectMapper().writeValueAsString(project1)))
+                .content(new ObjectMapper().writeValueAsString(project)))
                 .andExpect(status().isCreated());
     }
 
     @Test
     public void getProjectTest() throws Exception {
-        ProjectDto projectDto =objectMapper.convertValue(project1, ProjectDto.class);
+        ProjectDto projectDto =objectMapper.convertValue(project, ProjectDto.class);
         long projectId = 1L;
         projectDto.setProjectId(projectId);
 
@@ -62,25 +87,25 @@ public class ProjectControllerTest
         mockMvc.perform(get("/project/find/{projectId}", projectId)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.data.name").value("ERP"));
+                .andExpect(jsonPath("$.data.name").value(name));
     }
 
     @Test
     public void getAllProjectsTest() throws Exception {
-        List<Project> projects= Arrays.asList(project2,project3);
+        List<Project> projects= Arrays.asList(project,project);
         List<ProjectDto> projectDtos= Arrays.asList(objectMapper.convertValue(projects,ProjectDto[].class));
         projectService.addAllProject(projectDtos);
         when(projectService.findAllProject()).thenReturn(projectDtos);
         mockMvc.perform(get("/project/findAll")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].name").value("CRM"));
+                .andExpect(jsonPath("$[0].name").value(name));
     }
 
     @Test
     public void testUpdateProject() throws Exception {
 //        long projectId = 57L;
-        List<Project> projects= Arrays.asList(project2,project3);
+        List<Project> projects= Arrays.asList(project,project);
         List<ProjectDto> projectDtos= (Arrays.asList(objectMapper.convertValue(projects,ProjectDto[].class)));
         projectService.addAllProject(projectDtos);
 //        System.out.println("----------------------------------------------------------");
@@ -101,7 +126,7 @@ public class ProjectControllerTest
     @Test
     public void testDeleteProject() throws Exception {
         // Create a project DTO from project3
-        ProjectDto projectDto = objectMapper.convertValue(project3, ProjectDto.class);
+        ProjectDto projectDto = objectMapper.convertValue(project, ProjectDto.class);
         projectDto.setProjectId(1L);
         // Mock the behavior to return the project DTO when delete is called
         when(projectService.deleteProject(projectDto.getProjectId())).thenReturn(projectDto);
@@ -112,12 +137,9 @@ public class ProjectControllerTest
 
     @Test
     public void testAddAllProjects() throws Exception {
-        List<Project> projectsToAdd = Arrays.asList(
-                Project.builder().name("Project 1").description("Description 1").build(),
-                Project.builder().name("Project 2").description("Description 2").build()
-        );
+        List<Project> projectsToAdd = Arrays.asList(project,project);
         List<ProjectDto> projectDtos= Arrays.asList(objectMapper.convertValue(projectsToAdd,ProjectDto[].class));
-        when(projectService.addAllProject(projectDtos)).thenReturn(null);
+        when(projectService.addAllProject(projectDtos)).thenReturn(projectDtos);
 
         mockMvc.perform(post("/project/addAll")
                         .contentType(MediaType.APPLICATION_JSON)

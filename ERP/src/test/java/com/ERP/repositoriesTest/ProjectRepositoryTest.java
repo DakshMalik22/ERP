@@ -1,15 +1,20 @@
 package com.ERP.repositoriesTest;
 
 import com.ERP.entities.Project;
+import com.ERP.entitiesTest.JsonReader;
 import com.ERP.repositories.ProjectRepository;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.io.IOException;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @SpringBootTest
@@ -18,17 +23,37 @@ public class ProjectRepositoryTest {
     @Autowired
     private ProjectRepository projectRepository;
 
-    Date startDate = Date.valueOf("2024-04-23");
-    Date endDate = Date.valueOf("2024-04-29");
-    Project project1= Project.builder().name("ERP").description("This is ERP Project").startDate(startDate).endDate(endDate).status("pending").build();
-    Project project2= Project.builder().name("CRM").description("This is CRM Project").startDate(startDate).endDate(endDate).status("processing").build();
-    Project project3= Project.builder().name("HR").description("This is HR Project").startDate(startDate).endDate(endDate).status("done").build();
+    Project project;
+    JsonReader jsonReader = new JsonReader();
+    Map<String, Object> dataMap = jsonReader.readFile("Project");
+    //Access the datamap here
+    String name = (String) dataMap.get("name");
+    String description = (String) dataMap.get("description");
+    String startDateString = (String) dataMap.get("startDate");
+    String endDateString = (String) dataMap.get("endDate");
+    Date startDate = Date.valueOf(startDateString);
+    Date endDate = Date.valueOf(endDateString);
+    String status = (String) dataMap.get("status");
 
+    ProjectRepositoryTest() throws IOException {
+    }
+
+    @BeforeEach
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
+        project = new Project();
+        project.setProjectId(1L);
+        project.setName(name);
+        project.setDescription(description);
+        project.setStartDate(startDate);
+        project.setEndDate(endDate);
+        project.setStatus(status);
+    }
     @Test
     public void saveProjectTest() {
-        projectRepository.save(project1);
-        Assertions.assertThat(project1.getProjectId()).isGreaterThan(0);
-        Assertions.assertThat(project1.getName()).isEqualTo("ERP");
+        projectRepository.save(project);
+        Assertions.assertThat(project.getProjectId()).isGreaterThan(0);
+        Assertions.assertThat(project.getName()).isEqualTo(name);
     }
 
     @Test
@@ -79,11 +104,11 @@ public class ProjectRepositoryTest {
     public void addAll()
     {
         List<Project> projectsToAdd= new ArrayList<>();
-        projectsToAdd.add(project2);
-        projectsToAdd.add(project3);
+        projectsToAdd.add(project);
+        projectsToAdd.add(project);
         List<Project> addProjects= projectRepository.saveAll(projectsToAdd);
-        Assertions.assertThat(addProjects.get(0).getName()).isEqualTo(project2.getName());
-        Assertions.assertThat(addProjects.get(1).getName()).isEqualTo(project3.getName());
+        Assertions.assertThat(addProjects.get(0).getName()).isEqualTo(project.getName());
+        Assertions.assertThat(addProjects.get(1).getName()).isEqualTo(project.getName());
     }
     @Test
     public void findByNameTest()

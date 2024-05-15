@@ -1,26 +1,37 @@
 package com.ERP.controllers;
 
 import com.ERP.dtos.ProjectDto;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
+import com.ERP.exceptions.IdNotFoundException;
 import com.ERP.services.ProjectService;
 import com.ERP.utils.MyResponseGenerator;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Valid;
+import jakarta.validation.Validator;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/project")
+@Validated
 public class ProjectController
 {
     ProjectService projectService;
+    private final Validator validator;
 
-    public ProjectController(ProjectService projectService)
+    public ProjectController(ProjectService projectService, LocalValidatorFactoryBean validatorFactory)
     {
         this.projectService=projectService;
+        this.validator = validatorFactory.getValidator();
     }
     @PostMapping("/add")
-    public ResponseEntity<Object> addProject(@RequestBody ProjectDto projectDto)
+    public ResponseEntity<Object> addProject(@Valid @RequestBody ProjectDto projectDto)
     {
         ProjectDto newProject=projectService.addProject(projectDto);
         if(projectDto!=null)
@@ -34,10 +45,10 @@ public class ProjectController
     }
 
     @PutMapping("/update/{projectId}")
-    public ResponseEntity<Object> updateProject(@RequestBody ProjectDto projectDto,@PathVariable Long projectId)
+    public ResponseEntity<Object> updateProject( @Valid @RequestBody ProjectDto projectDto,@PathVariable Long projectId)
     {
         ProjectDto projectDto1= projectService.updateProject(projectDto,projectId);
-        if(projectDto!=null)
+        if(projectDto1!=null)
         {
             return MyResponseGenerator.generateResponse(HttpStatus.OK,true,"Project is updated successfully", projectDto1);
         }
@@ -60,13 +71,13 @@ public class ProjectController
     }
 
     @PostMapping("/addAll")
-    public List<ProjectDto> addAll(/*@Valid*/ @RequestBody List<ProjectDto> projectDtos)
+    public List<ProjectDto> addAll( @Valid @RequestBody List< ProjectDto> projectDtos)
     {
         return projectService.addAllProject(projectDtos);
     }
 
     @DeleteMapping("/delete/{projectId}")
-    public ResponseEntity<Object> deleteBook(@PathVariable long projectId)
+    public ResponseEntity<Object> deleteProject(@PathVariable long projectId)
     {
         ProjectDto projectDto= projectService.deleteProject(projectId);
         if(projectDto!=null)
