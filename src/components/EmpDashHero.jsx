@@ -29,6 +29,7 @@ const cardData = [
       value: "2",
     },
   ];
+  
   return (
      <div className="w-full py-3 pl-7 pr-5 grid xl:grid-cols-12 lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-5 justify-start">
      {/* cards */}
@@ -62,8 +63,7 @@ const cardData = [
     
     <div className="w-full">
     <EmpTasks/>
-    </div>
-     
+    </div>  
    </div>
   )
 }

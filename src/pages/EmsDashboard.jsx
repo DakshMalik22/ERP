@@ -65,7 +65,7 @@ const Dashbord = () => {
                   openSideBar ? " block" : "block sm:hidden"
                 } `}
               >
-                Employee <br /> Dashboard
+                Employee <br/> Dashboard
               </span>
               <div
                 className={`h-10  w-10 rounded-full bg-white absolute top-0  sm:flex justify-center items-center cursor-pointer hidden ${
@@ -129,7 +129,7 @@ const Dashbord = () => {
         <div className="w-full">
 
           {/* navbar */}
-          <div className="pt-5 pl-8 pr-7 py-5 bg-white flex justify-between">
+          <div className="pt-5 pl-8 pr-7 py-5 bg-white flex justify-between absolute w-full z-[99]">
               <div className="hidden sm:flex max-w-2xl justify-between w-full">
                 <div className="flex flex-col">
                   <span className="text-base md:text-xl text-[#212B36] font-semibold">
@@ -174,8 +174,9 @@ const Dashbord = () => {
               </div>
             
           </div>
-             <EmpDashHero/>
+
         </div>
+             <EmpDashHero/>
       </div>
     </div>
   );
