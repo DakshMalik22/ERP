@@ -1,60 +1,86 @@
 package com.ERP.services;
 
+import com.ERP.dtos.HRDto;
 import com.ERP.entities.HR;
-import com.ERP.exceptions.HRNotFoundException;
+import com.ERP.exceptions.IdNotFoundException;
 import com.ERP.repositories.HRRepository;
 import com.ERP.servicesInter.HRServiceInter;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 @Service
 public class HRService implements HRServiceInter {
-    @Autowired
-    private HRRepository hrRepository;
-
-    @Override
-    public List<HR> fetchHRList() {
-        return hrRepository.findAll();
-    }
-    @Override
-    public HR fetchHRById(int hrId) throws HRNotFoundException {
-        Optional<HR> hr = hrRepository.findById(hrId);
-        if(!hr.isPresent()){
-            throw new HRNotFoundException("HR Not Available");
-        }
-        return hr.get();
-    }
-    @Override
-    public HR addHR(HR hr) {
-        return hrRepository.save(hr);
-    }
-    @Override
-    public void removeHR(int hrId) {
-        hrRepository.deleteById(hrId);
+    private final HRRepository hrRepository;
+    private final ObjectMapper objectMapper;
+    public HRService(HRRepository hrRepository, ObjectMapper objectMapper) {
+        this.hrRepository = hrRepository;
+        this.objectMapper = objectMapper;
     }
 
-    @Override
-    public HR updateHR(int hrId, HR hr){
-        HR hr1 = hrRepository.findById(hrId).get();
-
-        if(Objects.nonNull(hr.getName()) &&
-                !"".equalsIgnoreCase(hr.getName())){
-            hr1.setName(hr.getName());
+    public HRDto createHR(HRDto hrDto) {
+        try {
+            HR newHR = objectMapper.convertValue(hrDto, HR.class);
+            HR savedHR = hrRepository.save(newHR);
+            return objectMapper.convertValue(savedHR, HRDto.class);
+        } catch (Exception e) {
+            throw new IdNotFoundException("Error adding HR: " + e.getMessage());
         }
+    }
 
-        if(Objects.nonNull(hr.getPassword()) &&
-                !"".equalsIgnoreCase(hr.getPassword())){
-            hr1.setPassword(hr.getPassword());
-        }
+    public HRDto updateHR(long hrId, HRDto hrDto) {
+        try {
+            HR hrToUpdate = hrRepository.findById(hrId)
+                    .orElseThrow(() -> new IdNotFoundException("HR not found with id: " + hrId));
 
-        if(Objects.nonNull(hr.getRole()) &&
-                !"".equals(hr.getRole())){
-            hr1.setRole(hr.getRole());
+            // Update HR fields if they are not null or empty in HRDto
+            if (Objects.nonNull(hrDto.getName()) && !hrDto.getName().isEmpty()) {
+                hrToUpdate.setName(hrDto.getName());
+            }
+            if (Objects.nonNull(hrDto.getPassword()) && !hrDto.getPassword().isEmpty()) {
+                hrToUpdate.setPassword(hrDto.getPassword());
+            }
+            if (Objects.nonNull(hrDto.getRole()) && !hrDto.getRole().isEmpty()) {
+                hrToUpdate.setRole(hrDto.getRole());
+            }
+
+            HR updatedHR = hrRepository.save(hrToUpdate);
+            return objectMapper.convertValue(updatedHR, HRDto.class);
+        } catch (Exception e) {
+            throw new IdNotFoundException("Error updating HR: " + e.getMessage());
         }
-        return hrRepository.save(hr1);
+    }
+
+    public List<HRDto> getAllHR() {
+        try {
+            List<HR> hrList = hrRepository.findAll();
+            return Arrays.asList(objectMapper.convertValue(hrList, HRDto[].class));
+        } catch (Exception e) {
+            throw new IdNotFoundException("Error finding all HRs: " + e.getMessage());
+        }
+    }
+
+    public HRDto getHRById(long hrId) {
+        try {
+            HR foundHR = hrRepository.findById(hrId)
+                    .orElseThrow(() -> new IdNotFoundException("HR not found with id: " + hrId));
+            return objectMapper.convertValue(foundHR, HRDto.class);
+        } catch (Exception e) {
+            throw new IdNotFoundException("Error finding HR: " + e.getMessage());
+        }
+    }
+
+    public HRDto deleteHR(long hrId) {
+        try {
+            HR hrToDelete = hrRepository.findById(hrId)
+                    .orElseThrow(() -> new IdNotFoundException("HR not found with id: " + hrId));
+            hrRepository.deleteById(hrId);
+            return objectMapper.convertValue(hrToDelete, HRDto.class);
+        } catch (Exception e) {
+            throw new IdNotFoundException("Error deleting HR: " + e.getMessage());
+        }
     }
 }

@@ -1,67 +1,92 @@
+
 package com.ERP.services;
 
+import com.ERP.dtos.SalaryStructureDto;
+import com.ERP.dtos.TaskDto;
 import com.ERP.entities.SalaryStructure;
-import com.ERP.exceptions.SalaryStructureNotFoundException;
+import com.ERP.exceptions.IdNotFoundException;
 import com.ERP.repositories.SalaryStructureRepository;
 import com.ERP.servicesInter.SalaryStructureServiceInter;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
 
 @Service
 public class SalaryStructureService implements SalaryStructureServiceInter {
-    @Autowired
-    private SalaryStructureRepository salaryStructureRepository;
+    private final SalaryStructureRepository salaryStructureRepository;
+    private final ObjectMapper objectMapper;
 
-    @Override
-    public List<SalaryStructure> fetchSalaryStructureList() {
-        return salaryStructureRepository.findAll();
+    public SalaryStructureService(SalaryStructureRepository salaryStructureRepository, ObjectMapper objectMapper) {
+        this.salaryStructureRepository = salaryStructureRepository;
+        this.objectMapper = objectMapper;
     }
 
-    @Override
-    public SalaryStructure fetchSalaryStructureById(int structureId) throws SalaryStructureNotFoundException{
-        Optional<SalaryStructure> salaryStructure = salaryStructureRepository.findById(structureId);
-        if(!salaryStructure.isPresent()){
-            throw new SalaryStructureNotFoundException("SalaryStructure Not Available");
+    public SalaryStructureDto createSalaryStructure(SalaryStructureDto salaryStructureDTO) {
+        try {
+            SalaryStructure newSalaryStructure = objectMapper.convertValue(salaryStructureDTO, SalaryStructure.class);
+            SalaryStructure savedSalaryStructure = salaryStructureRepository.save(newSalaryStructure);
+            return objectMapper.convertValue(savedSalaryStructure, SalaryStructureDto.class);
+        } catch (Exception e) {
+            throw new IdNotFoundException("Error adding salary structure: " + e.getMessage());
         }
-        return salaryStructure.get();
     }
 
     @Override
-    public SalaryStructure addSalaryStructure(SalaryStructure salaryStructure) {
-        return salaryStructureRepository.save(salaryStructure);
+    public List<SalaryStructureDto> getSalaryStructureByRole(String role) {
+        try {
+            List<SalaryStructure> salaryStructureList = salaryStructureRepository.findAllByRole(role);
+            return Arrays.asList(objectMapper.convertValue(salaryStructureList, SalaryStructureDto[].class));
+        } catch (Exception e) {
+            throw new IdNotFoundException("Error finding all salaryStructure: " + e.getMessage());
+        }
     }
 
+    public SalaryStructureDto updateSalaryStructure(long structureId, SalaryStructureDto salaryStructureDTO) {
+        try {
+            SalaryStructure salaryStructureToUpdate = salaryStructureRepository.findById(structureId)
+                    .orElseThrow(() -> new IdNotFoundException("Salary structure not found with id: " + structureId));
+
+            salaryStructureToUpdate.setRole(salaryStructureDTO.getRole());
+            salaryStructureToUpdate.setLevel(salaryStructureDTO.getLevel());
+            salaryStructureToUpdate.setBaseSalary(salaryStructureDTO.getBaseSalary());
+
+            SalaryStructure updatedSalaryStructure = salaryStructureRepository.save(salaryStructureToUpdate);
+            return objectMapper.convertValue(updatedSalaryStructure, SalaryStructureDto.class);
+        } catch (Exception e) {
+            throw new IdNotFoundException("Error updating salary structure: " + e.getMessage());
+        }
+    }
+
+    public SalaryStructureDto getSalaryStructureById(long structureId) {
+        try {
+            SalaryStructure foundSalaryStructure = salaryStructureRepository.findById(structureId)
+                    .orElseThrow(() -> new IdNotFoundException("Salary structure not found with id: " + structureId));
+            return objectMapper.convertValue(foundSalaryStructure, SalaryStructureDto.class);
+        } catch (Exception e) {
+            throw new IdNotFoundException("Error finding salary structure: " + e.getMessage());
+        }
+    }
     @Override
-    public List<SalaryStructure> fetchSalaryStructureByRole(String role) throws SalaryStructureNotFoundException {
-        return salaryStructureRepository.findAllByRole(role);
+    public List<SalaryStructureDto> getSalaryStructureList() {
+        try {
+            List<SalaryStructure> salaryStructureList = salaryStructureRepository.findAll();
+            return Arrays.asList(objectMapper.convertValue(salaryStructureList, SalaryStructureDto[].class));
+        } catch (Exception e) {
+            throw new IdNotFoundException("Error finding all salaryStructure: " + e.getMessage());
+        }
     }
 
-    @Override
-    public void removeSalaryStructure(int structureId){
-        salaryStructureRepository.deleteById(structureId);
-    }
 
-    public SalaryStructure updateSalaryStructure(int structureId, SalaryStructure salaryStructure){
-        SalaryStructure salaryStructure1 = salaryStructureRepository.findById(structureId).get();
-
-        if(Objects.nonNull(salaryStructure.getRole()) &&
-                !"".equalsIgnoreCase(salaryStructure.getRole())){
-            salaryStructure1.setRole(salaryStructure.getRole());
+    public SalaryStructureDto deleteSalaryStructure(long structureId) {
+        try {
+            SalaryStructure salaryStructureToDelete = salaryStructureRepository.findById(structureId)
+                    .orElseThrow(() -> new IdNotFoundException("Salary structure not found with id: " + structureId));
+            salaryStructureRepository.deleteById(structureId);
+            return objectMapper.convertValue(salaryStructureToDelete, SalaryStructureDto.class);
+        } catch (Exception e) {
+            throw new IdNotFoundException("Error deleting salary structure: " + e.getMessage());
         }
-
-        if(Objects.nonNull(salaryStructure.getLevel()) &&
-                !"".equalsIgnoreCase(salaryStructure.getLevel())){
-            salaryStructure1.setLevel(salaryStructure.getLevel());
-        }
-
-        if(Objects.nonNull(salaryStructure.getBaseSalary()) &&
-                salaryStructure.getBaseSalary() != 0.0){
-            salaryStructure1.setBaseSalary(salaryStructure.getBaseSalary());
-        }
-        return salaryStructureRepository.save(salaryStructure1);
     }
 }

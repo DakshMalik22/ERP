@@ -1,47 +1,74 @@
 package com.ERP.controllers;
 
-import com.ERP.entities.SalaryStructure;
-import com.ERP.exceptions.SalaryStructureNotFoundException;
-import com.ERP.servicesInter.SalaryStructureServiceInter;
+import com.ERP.dtos.SalaryStructureDto;
+import com.ERP.services.SalaryStructureService;
+import com.ERP.utils.MyResponseGenerator;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@RequestMapping("/salary-structure")
 public class SalaryStructureController {
+
+    private final SalaryStructureService salaryStructureService;
+
     @Autowired
-    private SalaryStructureServiceInter salaryStructureService;
-
-    @GetMapping("/salaryStructure")
-    public List<SalaryStructure> getSalaryStructure(){
-        return salaryStructureService.fetchSalaryStructureList();
+    public SalaryStructureController(SalaryStructureService salaryStructureService) {
+        this.salaryStructureService = salaryStructureService;
     }
 
-    @PostMapping("/addSalaryStructure")
-    public SalaryStructure addSalaryStructure(@Valid @RequestBody SalaryStructure salaryStructure){
-        return salaryStructureService.addSalaryStructure(salaryStructure);
+    @PostMapping("/add")
+    public ResponseEntity<Object> addSalaryStructure(@Valid @RequestBody SalaryStructureDto salaryStructureDTO) {
+        SalaryStructureDto createdSalaryStructure = salaryStructureService.createSalaryStructure(salaryStructureDTO);
+        if (createdSalaryStructure != null) {
+            return MyResponseGenerator.generateResponse(HttpStatus.CREATED, true, "Salary structure added successfully", createdSalaryStructure);
+        } else {
+            return MyResponseGenerator.generateResponse(HttpStatus.BAD_REQUEST, false, "Failed to add salary structure", null);
+        }
     }
 
-    @GetMapping("/salaryStructure/{id}")
-    public SalaryStructure getSalaryStructureById(@PathVariable("id") int structureId) throws SalaryStructureNotFoundException {
-        return salaryStructureService.fetchSalaryStructureById(structureId);
+    @PutMapping("/update/{structureId}")
+    public ResponseEntity<Object> updateSalaryStructure(@PathVariable long structureId, @Valid @RequestBody SalaryStructureDto salaryStructureDTO) {
+        SalaryStructureDto updatedSalaryStructure = salaryStructureService.updateSalaryStructure(structureId, salaryStructureDTO);
+        if (updatedSalaryStructure != null) {
+            return MyResponseGenerator.generateResponse(HttpStatus.OK, true, "Salary structure updated successfully", updatedSalaryStructure);
+        } else {
+            return MyResponseGenerator.generateResponse(HttpStatus.BAD_REQUEST, false, "Failed to update salary structure", null);
+        }
     }
 
-    @GetMapping("/salaryStructure/role/{role}")
-    public List<SalaryStructure> fetchSalaryStructureByRole(@PathVariable("role") String role) throws SalaryStructureNotFoundException {
-        return salaryStructureService.fetchSalaryStructureByRole(role);
+    @GetMapping("/find/{structureId}")
+    public ResponseEntity<Object> findSalaryStructure(@PathVariable long structureId) {
+        SalaryStructureDto foundSalaryStructure = salaryStructureService.getSalaryStructureById(structureId);
+        if (foundSalaryStructure != null) {
+            return MyResponseGenerator.generateResponse(HttpStatus.OK, true, "Salary structure found", foundSalaryStructure);
+        } else {
+            return MyResponseGenerator.generateResponse(HttpStatus.NOT_FOUND, false, "Salary structure not found", null);
+        }
     }
 
-    @DeleteMapping("/removeSalaryStructure/{id}")
-    public void removeSalaryStructure(@PathVariable("id") int structureId){
-        salaryStructureService.removeSalaryStructure(structureId);
+    @GetMapping("/findAll")
+    public List<SalaryStructureDto> findAllSalaryStructure() {
+        return salaryStructureService.getSalaryStructureList();
     }
 
-    @PutMapping("/updateSalaryStructure/{id}")
-    public SalaryStructure updateSalaryStructure(@PathVariable("id") int structureId,
-                                   @RequestBody SalaryStructure salaryStructure) {
-        return salaryStructureService.updateSalaryStructure(structureId, salaryStructure);
+    @GetMapping("/findAllByRole/{role}")
+    public List<SalaryStructureDto> findAllSalaryStructureByRole(@PathVariable String role) {
+        return salaryStructureService.getSalaryStructureByRole(role);
+    }
+
+    @DeleteMapping("/delete/{structureId}")
+    public ResponseEntity<Object> deleteSalaryStructure(@PathVariable long structureId) {
+        SalaryStructureDto deletedSalaryStructure = salaryStructureService.deleteSalaryStructure(structureId);
+        if (deletedSalaryStructure != null) {
+            return MyResponseGenerator.generateResponse(HttpStatus.OK, true, "Salary structure deleted successfully", deletedSalaryStructure);
+        } else {
+            return MyResponseGenerator.generateResponse(HttpStatus.BAD_REQUEST, false, "Failed to delete salary structure", null);
+        }
     }
 }
