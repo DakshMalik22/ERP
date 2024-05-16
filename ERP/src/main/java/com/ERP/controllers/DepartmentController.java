@@ -29,6 +29,7 @@ public class DepartmentController
     @PostMapping("/add")
     public ResponseEntity<Object> addDepartment(@Valid @RequestBody DepartmentDto departmentDto)
     {
+        System.out.println("Just testing the file.");
         DepartmentDto departmentDto1=departmentService.addDepartment(departmentDto);
         if(departmentDto1!=null)
         {
