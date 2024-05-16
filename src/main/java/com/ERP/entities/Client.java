@@ -1,7 +1,12 @@
 package com.ERP.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -12,16 +17,27 @@ import java.util.Set;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Table(name="client")
 public class Client
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long clientId;
-    @Column
+    @NotBlank(message = "Name is mandatory")
+    @Size(min = 3, max = 50, message = "Name must be between 3 and 50 characters")
     private String name;
+
+    @NotBlank(message = "Email is mandatory")
+    @Email(message = "Email should be valid")
     private String email;
+
+    @NotBlank(message = "Phone is mandatory")
+    @Pattern(regexp = "^\\+(?:[0-9] ?){6,14}[0-9]$", message = "Phone number should be valid")
     private String phone;
+
+    @NotBlank(message = "Address is mandatory")
+    @Size(min = 5, max = 255, message = "Address must be between 5 and 255 characters")
     private String address;
 
     @OneToMany(mappedBy = "client",cascade = CascadeType.ALL)

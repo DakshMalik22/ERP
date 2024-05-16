@@ -1,9 +1,7 @@
 package com.ERP.exceptionHandler;
 
 import com.ERP.entities.ExceptionMessage;
-import com.ERP.exceptions.HRNotFoundException;
-import com.ERP.exceptions.SalaryStructureNotFoundException;
-import com.ERP.exceptions.TaskNotFoundException;
+import com.ERP.exceptions.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -35,5 +33,18 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessage);
     }
 
+    @ExceptionHandler(ClientNotFoundException.class)
+    public ResponseEntity<ExceptionMessage> clientNotFoundException(ClientNotFoundException exception,
+                                                                    WebRequest request){
+        ExceptionMessage errorMessage = new ExceptionMessage(HttpStatus.NOT_FOUND, exception.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessage);
+    }
+
+    @ExceptionHandler(LeavesNotFound.class)
+    public ResponseEntity<ExceptionMessage> leavesNotFound(LeavesNotFound exception,
+                                                                    WebRequest request){
+        ExceptionMessage errorMessage = new ExceptionMessage(HttpStatus.NOT_FOUND, exception.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessage);
+    }
 
 }

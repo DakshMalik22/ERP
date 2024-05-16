@@ -30,8 +30,6 @@ class EmployeeRepositoryTest {
 
     @BeforeEach
     void setUp() {
-
-
         employee = Employee.builder()
                 .id(1L)
                 .name("daksh")
@@ -78,7 +76,7 @@ class EmployeeRepositoryTest {
     void findAllEmployees()
     {
         List<Employee>employees = employeeRepository.findAll();
-        assertThat(employees.get(0).getName()).isEqualTo(stored.getName());
+        assertThat(employees.get(employees.size()-1).getName()).isEqualTo(stored.getName());
     }
 
     @Test
@@ -99,5 +97,6 @@ class EmployeeRepositoryTest {
         List<Employee> employee1 = employeeRepository.findByName("daksh");
 
         assertThat(employee1.isEmpty()).isTrue();
+
     }
 }

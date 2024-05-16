@@ -24,17 +24,17 @@ public class Employee {
     private String email;
     private String role;
 
-    @OneToMany(mappedBy = "employee")
+    @OneToMany(mappedBy = "employee",cascade = CascadeType.ALL)
     private List<Task>task = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name="department_id")
     private Department department;
 
-    @OneToOne(mappedBy = "employee")
+    @OneToOne(mappedBy = "employee",cascade = CascadeType.ALL)
     private SalaryPayment salaryPayment;
 
-    @OneToMany(mappedBy = "employee")
+    @OneToMany(mappedBy = "employee",cascade = CascadeType.ALL)
     private List<Leaves> leaves;
 
 }
