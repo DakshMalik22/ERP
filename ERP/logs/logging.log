@@ -1,0 +1,12 @@
+24-05-16 15:05:05.400 [main] INFO  c.E.servicesTest.ProjectServiceTest - Starting updateProjectTest 
+24-05-16 15:05:05.628 [main] INFO  c.E.servicesTest.ProjectServiceTest - updateProjectTest passed 
+24-05-16 15:05:05.651 [main] INFO  c.E.servicesTest.ProjectServiceTest - Starting deleteProjectTest 
+24-05-16 15:05:05.657 [main] INFO  c.E.servicesTest.ProjectServiceTest - deleteProjectTest passed 
+24-05-16 15:05:05.664 [main] INFO  c.E.servicesTest.ProjectServiceTest - Starting findAllProjectTest 
+24-05-16 15:05:05.685 [main] INFO  c.E.servicesTest.ProjectServiceTest - findAllProjectTest passed 
+24-05-16 15:05:05.692 [main] INFO  c.E.servicesTest.ProjectServiceTest - Starting createProjectTest 
+24-05-16 15:05:05.736 [main] INFO  c.E.servicesTest.ProjectServiceTest - createProjectTest passed 
+24-05-16 15:05:05.748 [main] INFO  c.E.servicesTest.ProjectServiceTest - Starting findProjectTest 
+24-05-16 15:05:05.758 [main] INFO  c.E.servicesTest.ProjectServiceTest - findProjectTest passed 
+24-05-16 15:05:05.765 [main] INFO  c.E.servicesTest.ProjectServiceTest - Starting createAllProjectsTest 
+24-05-16 15:05:05.781 [main] INFO  c.E.servicesTest.ProjectServiceTest - createAllProjectsTest passed 

@@ -1,6 +1,10 @@
 package com.ERP.exceptionHandler;
 
+import com.ERP.entities.ExceptionMessage;
+import com.ERP.exceptions.HRNotFoundException;
 import com.ERP.exceptions.IdNotFoundException;
+import com.ERP.exceptions.SalaryStructureNotFoundException;
+import com.ERP.exceptions.TaskNotFoundException;
 import com.ERP.utils.MyResponseGenerator;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,12 +13,13 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.context.request.WebRequest;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @ControllerAdvice
-public class ProjectExceptionHandler
+public class GlobalExceptionHandler
 {
     @ExceptionHandler(value= IdNotFoundException.class)
     @ResponseStatus(value=HttpStatus.BAD_REQUEST)
@@ -29,7 +34,6 @@ public class ProjectExceptionHandler
     {
         return MyResponseGenerator.generateResponse(HttpStatus.BAD_REQUEST,false,"Null Pointer Exception",null);
     }
-    
 
     @ExceptionHandler(value = Exception.class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
@@ -53,6 +57,26 @@ public class ProjectExceptionHandler
         });
 
         return MyResponseGenerator.generateResponse(HttpStatus.BAD_REQUEST,false,"Server side error",errorsMap);
+    }
+
+    @ExceptionHandler(SalaryStructureNotFoundException.class)
+    public ResponseEntity<ExceptionMessage> salaryStructureNotFoundException(SalaryStructureNotFoundException exception, WebRequest request){
+        ExceptionMessage errorMessage = new ExceptionMessage(HttpStatus.NOT_FOUND, exception.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessage);
+    }
+
+    @ExceptionHandler(HRNotFoundException.class)
+    public ResponseEntity<ExceptionMessage> hrNotFoundException(HRNotFoundException exception,
+                                                                WebRequest request){
+        ExceptionMessage errorMessage = new ExceptionMessage(HttpStatus.NOT_FOUND, exception.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessage);
+    }
+
+    @ExceptionHandler(TaskNotFoundException.class)
+    public ResponseEntity<ExceptionMessage> taskNotFoundException(TaskNotFoundException exception,
+                                                                  WebRequest request){
+        ExceptionMessage errorMessage = new ExceptionMessage(HttpStatus.NOT_FOUND, exception.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessage);
     }
 
 }
