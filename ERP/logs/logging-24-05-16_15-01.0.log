@@ -1,0 +1,32 @@
+24-05-16 15:01:00.012 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 101 ms. Found 7 JPA repository interfaces. 
+24-05-16 15:01:00.908 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default] 
+24-05-16 15:01:01.013 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.4.Final 
+24-05-16 15:01:01.070 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled 
+24-05-16 15:01:01.420 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer 
+24-05-16 15:01:01.461 [main] INFO  com.zaxxer.hikari.HikariDataSource - test - Starting... 
+24-05-16 15:01:01.918 [main] INFO  com.zaxxer.hikari.pool.HikariPool - test - Added connection com.mysql.cj.jdbc.ConnectionImpl@44948ac6 
+24-05-16 15:01:01.922 [main] INFO  com.zaxxer.hikari.HikariDataSource - test - Start completed. 
+24-05-16 15:01:01.985 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default) 
+24-05-16 15:01:01.986 [main] WARN  org.hibernate.orm.deprecation - HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead 
+24-05-16 15:01:03.351 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration) 
+24-05-16 15:01:03.521 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default' 
+24-05-16 15:01:04.436 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning 
+24-05-16 15:01:05.457 [main] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 1 endpoint(s) beneath base path '/actuator' 
+24-05-16 15:01:05.537 [main] INFO  c.E.r.ProjectRepositoryTest - Started ProjectRepositoryTest in 7.462 seconds (process running for 9.4) 
+24-05-16 15:01:06.126 [main] INFO  c.E.r.ProjectRepositoryTest - Starting updateProject 
+24-05-16 15:01:06.575 [main] INFO  c.E.r.ProjectRepositoryTest - updateProject passed 
+24-05-16 15:01:06.594 [main] INFO  c.E.r.ProjectRepositoryTest - Starting addAll 
+24-05-16 15:01:06.626 [main] INFO  c.E.r.ProjectRepositoryTest - addAll passed 
+24-05-16 15:01:06.633 [main] INFO  c.E.r.ProjectRepositoryTest - Starting findByNameTest 
+24-05-16 15:01:06.715 [main] INFO  c.E.r.ProjectRepositoryTest - findByNameTest passed 
+24-05-16 15:01:06.723 [main] INFO  c.E.r.ProjectRepositoryTest - Starting deleteProject 
+24-05-16 15:01:06.816 [main] INFO  c.E.r.ProjectRepositoryTest - deleteProject passed 
+24-05-16 15:01:06.821 [main] INFO  c.E.r.ProjectRepositoryTest - Starting saveProjectTest 
+24-05-16 15:01:06.836 [main] INFO  c.E.r.ProjectRepositoryTest - saveProjectTest passed 
+24-05-16 15:01:06.842 [main] INFO  c.E.r.ProjectRepositoryTest - Starting findProjectById 
+24-05-16 15:01:06.904 [main] INFO  c.E.r.ProjectRepositoryTest - findProjectById passed 
+24-05-16 15:01:06.912 [main] INFO  c.E.r.ProjectRepositoryTest - Starting findAllProjects 
+24-05-16 15:01:06.971 [main] INFO  c.E.r.ProjectRepositoryTest - findAllProjects passed 
+24-05-16 15:01:07.260 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default' 
+24-05-16 15:01:07.264 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - test - Shutdown initiated... 
+24-05-16 15:01:07.275 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - test - Shutdown completed. 

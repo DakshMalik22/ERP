@@ -1,23 +1,30 @@
 package com.ERP.controllers;
 
 import com.ERP.dtos.DepartmentDto;
+import com.ERP.dtos.ProjectDto;
 import com.ERP.services.DepartmentService;
 import com.ERP.utils.MyResponseGenerator;
 import jakarta.validation.Valid;
+import jakarta.validation.Validator;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
 @RequestMapping("/department")
+@Validated
 public class DepartmentController
 {
     DepartmentService departmentService;
+    private final Validator validator;
 
-    public DepartmentController(DepartmentService departmentService)
+    public DepartmentController(DepartmentService departmentService, LocalValidatorFactoryBean validatorFactory)
     {
         this.departmentService=departmentService;
+        this.validator=validatorFactory.getValidator();
     }
     @PostMapping("/add")
     public ResponseEntity<Object> addDepartment(@Valid @RequestBody DepartmentDto departmentDto)
@@ -74,5 +81,10 @@ public class DepartmentController
         else {
             return MyResponseGenerator.generateResponse(HttpStatus.BAD_REQUEST,false,"Department is not Deleted Successfully",departmentDto);
         }
+    }
+    @GetMapping("/findAll")
+    public List<DepartmentDto> findAll()
+    {
+        return departmentService.findAllDepartment();
     }
 }
