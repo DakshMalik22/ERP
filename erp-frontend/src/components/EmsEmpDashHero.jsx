@@ -5,7 +5,7 @@ import { MdOutlineCelebration } from "react-icons/md";
 import { MdFreeCancellation } from "react-icons/md";
 import EmpTasks from './EmpTasks';
 
-const EmpDashHero = () => {
+const EmsEmpDashHero = () => {
     
 const cardData = [
     {
@@ -60,7 +60,6 @@ const cardData = [
          </div>
        </div>
      ))}
-    
     <div className="w-full">
     <EmpTasks/>
     </div>  
@@ -68,4 +67,4 @@ const cardData = [
   )
 }
 
-export default EmpDashHero
+export default EmsEmpDashHero
